@@ -16,6 +16,9 @@
  */
 package org.jboss.as.quickstarts.rshelloworld;
 
+import java.util.Collection;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -48,6 +51,16 @@ public class HelloWorld {
       System.out.println(System.getenv("WEBSITE_SKIP_FILTERS"));
       System.out.println(System.getenv("WEBSITE_AUTH_SKIP_PRINCIPAL"));
       System.out.println(System.getenv("WEBSITE_AUTH_ENABLED"));
+      Map<String, Collection<String>> map = (Map<String, Collection<String>>) req.getUserPrincipal();
+      for (Object key : map.keySet()) {
+         Object value = map.get(key);
+         if (value != null && value instanceof Collection) {
+         Collection claims = (Collection) value;
+         for (Object claim : claims) {
+         System.out.println(claims);
+         }
+         }
+      }
       return "req.getUserPrincipal: " + req.getUserPrincipal();
    }
 
